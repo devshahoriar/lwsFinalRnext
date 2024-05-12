@@ -1,10 +1,12 @@
 'use client'
 import { registerAct } from '@/src/actions/authAction'
 import { useFormState } from 'react-dom'
+import SubmitButton from './SubmitButton'
+import Link from 'next/link'
+import { signIn } from 'next-auth/react'
 
 const Register = () => {
-  const [state, action, isPending] = useFormState(registerAct, null)
-
+  const [state, action] = useFormState(registerAct, null)
 
   return (
     <div className="contain py-16">
@@ -83,16 +85,10 @@ const Register = () => {
               </label>
             </div>
           </div>
-          
+
           <div className="mt-4">
-            <button
-              disabled={isPending}
-              type="submit"
-              className="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
-            >
-              create account
-            </button>
-            {state?.error && <p className='text-red-600 my-4'>{state.error}</p>}
+            <SubmitButton title='Create Account' />
+            {state?.error && <p className="text-red-600 my-4">{state.error}</p>}
           </div>
         </form>
         {/* login with */}
@@ -110,18 +106,18 @@ const Register = () => {
             facebook
           </a>
           <a
-            href="#"
-            className="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500"
+            onClick={() => signIn('google', { callbackUrl: '/' })}
+            className="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500 cursor-pointer" 
           >
             google
           </a>
         </div>
         {/* ./login with */}
         <p className="mt-4 text-center text-gray-600">
-          Already have account?{' '}
-          <a href="login.html" className="text-primary">
+          Already have account?
+          <Link href="/login" className="text-primary">
             Login now
-          </a>
+          </Link>
         </p>
       </div>
     </div>

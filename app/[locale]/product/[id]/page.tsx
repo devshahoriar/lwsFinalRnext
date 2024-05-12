@@ -1,82 +1,34 @@
 import BrodCam from '@/src/components/shared/BrodCam'
-import p1 from '@/public/images/products/product1.jpg'
-import p2 from '@/public/images/products/product2.jpg'
-import p3 from '@/public/images/products/product3.jpg'
-import p4 from '@/public/images/products/product4.jpg'
-import p5 from '@/public/images/products/product5.jpg'
-import p6 from '@/public/images/products/product6.jpg'
-import Image from 'next/image'
+import ProductImageS from '@/src/components/ui/ProductImageS'
+import Reating from '@/src/components/ui/Reating'
 import RelatedProductItem from '@/src/components/ui/RelatedProductItem'
+import dbConnect from '@/src/db/dbConnect'
+import product_model from '@/src/models/product_model'
 
-const page = () => {
+const page = async ({ params: { id } }: any) => {
+  await dbConnect()
+  const product = await product_model.findById(id)
+  product.visited = 1 + product.visited || 0
+  await product.save()
+  
+  const relatedProduct = await product_model
+    .find({ category: product.category })
+    .limit(4).select('title price rating stock thumbnail')
+    .lean()
+
   return (
     <>
-      <BrodCam />
+      <BrodCam title="Product" />
       <>
         {/* product-detail */}
         <div className="container grid grid-cols-2 gap-6">
-          <div>
-            <Image
-              src={p1}
-              alt="product"
-              className="w-full"
-            />
-            <div className="grid grid-cols-5 gap-4 mt-4">
-              <Image
-                src={p2}
-                alt="product2"
-                className="w-full cursor-pointer border border-primary"
-              />
-              <Image
-                src={p3}
-                alt="product2"
-                className="w-full cursor-pointer border border-primary"
-              />
-              <Image
-                src={p3}
-                alt="product2"
-                className="w-full cursor-pointer border border-primary"
-              />
-              <Image
-                src={p4}
-                alt="product2"
-                className="w-full cursor-pointer border border-primary"
-              />
-              <Image
-                src={p5}
-                alt="product2"
-                className="w-full cursor-pointer border border-primary"
-              />
-              <Image
-                src={p5}
-                alt="product2"
-                className="w-full cursor-pointer border border-primary"
-              />
-       
-            </div>
-          </div>
+          <ProductImageS images={product.images} />
           <div>
             <h2 className="text-3xl font-medium uppercase mb-2">
-              Italian L Shape Sofa
+              {product.title}
             </h2>
             <div className="flex items-center mb-4">
-              <div className="flex gap-1 text-sm text-yellow-400">
-                <span>
-                  <i className="fa-solid fa-star" />
-                </span>
-                <span>
-                  <i className="fa-solid fa-star" />
-                </span>
-                <span>
-                  <i className="fa-solid fa-star" />
-                </span>
-                <span>
-                  <i className="fa-solid fa-star" />
-                </span>
-                <span>
-                  <i className="fa-solid fa-star" />
-                </span>
-              </div>
+              <Reating p={product.rating} />
               <div className="text-xs text-gray-500 ml-3">(150 Reviews)</div>
             </div>
             <div className="space-y-2">
@@ -86,11 +38,11 @@ const page = () => {
               </p>
               <p className="space-x-2">
                 <span className="text-gray-800 font-semibold">Brand: </span>
-                <span className="text-gray-600">Apex</span>
+                <span className="text-gray-600">{product.brand}</span>
               </p>
               <p className="space-x-2">
                 <span className="text-gray-800 font-semibold">Category: </span>
-                <span className="text-gray-600">Sofa</span>
+                <span className="text-gray-600">{product.category}</span>
               </p>
               <p className="space-x-2">
                 <span className="text-gray-800 font-semibold">SKU: </span>
@@ -98,15 +50,14 @@ const page = () => {
               </p>
             </div>
             <div className="flex items-baseline mb-1 space-x-2 font-roboto mt-4">
-              <p className="text-xl text-primary font-semibold">$45.00</p>
-              <p className="text-base text-gray-400 line-through">$55.00</p>
+              <p className="text-xl text-primary font-semibold">
+                ${product.price}
+              </p>
+              <p className="text-base text-gray-400 line-through">
+                ${product.price + 10}
+              </p>
             </div>
-            <p className="mt-4 text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos eius
-              eum reprehenderit dolore vel mollitia optio consequatur hic
-              asperiores inventore suscipit, velit consequuntur, voluptate
-              doloremque iure necessitatibus adipisci magnam porro.
-            </p>
+            <p className="mt-4 text-gray-600">{product.description}</p>
             <div className="mt-4">
               <h3 className="text-sm text-gray-800 uppercase mb-1">Quantity</h3>
               <div className="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
@@ -165,24 +116,7 @@ const page = () => {
           </h3>
           <div className="w-3/5 pt-6">
             <div className="text-gray-600">
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Tenetur necessitatibus deleniti natus dolore cum maiores
-                suscipit optio itaque voluptatibus veritatis tempora iste
-                facilis non aut sapiente dolor quisquam, ex ab.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Dolorum, quae accusantium voluptatem blanditiis sapiente
-                voluptatum. Autem ab, dolorum assumenda earum veniam eius illo
-                fugiat possimus illum dolor totam, ducimus excepturi.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Error
-                quia modi ut expedita! Iure molestiae labore cumque nobis quasi
-                fuga, quibusdam rem? Temporibus consectetur corrupti rerum
-                veritatis numquam labore amet.
-              </p>
+              <p>{product.longDescription}</p>
             </div>
           </div>
         </div>
@@ -193,10 +127,9 @@ const page = () => {
             Related products
           </h2>
           <div className="grid grid-cols-4 gap-6">
-            <RelatedProductItem/>
-            <RelatedProductItem/>
-            <RelatedProductItem/>
-   
+            {relatedProduct.map((p: any) => (
+              <RelatedProductItem key={p._id} product={p} />
+            ))}
           </div>
         </div>
         {/* ./related product */}

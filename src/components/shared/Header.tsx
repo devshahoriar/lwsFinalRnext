@@ -1,9 +1,13 @@
+/* eslint-disable @next/next/no-img-element */
 import logo from '@/public/images/logo.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import LangChange from '../ui/LangChange'
+import { auth } from '@/src/lib/auth'
 
-const Header = () => {
+const Header = async () => {
+  const { user } = ((await auth()) as any) || {}
+
   return (
     <header className="py-4 shadow-sm bg-white">
       <div className="container flex items-center justify-between">
@@ -52,13 +56,41 @@ const Header = () => {
             </div>
           </Link>
           <Link
-            href="/account"
-            className="text-center text-gray-700 hover:text-primary transition relative"
+            href={user ? '/account' : '/login'}
+            className="text-center text-gray-700 hover:text-primary transition relative flex items-center justify-center flex-col"
           >
-            <div className="text-2xl">
-              <i className="fa-regular fa-user" />
-            </div>
-            <div className="text-xs leading-3">Account</div>
+            {user ? (
+              <>
+                {user?.image ? (
+                  <>
+                    <img
+                      src={user.image}
+                      alt="User"
+                      className="w-8 h-8 rounded-full border border-gray-300"
+                    />
+                    <div className="text-xs leading-3">
+                      {user.name.split(' ')[0]}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="text-2xl">
+                      <i className="fa-regular fa-user" />
+                    </div>
+                    <div className="text-xs leading-3">
+                      {user.name.split(' ')[0]}
+                    </div>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="text-2xl">
+                  <i className="fa-regular fa-user" />
+                </div>
+                <div className="text-xs leading-3">Account</div>
+              </>
+            )}
           </Link>
         </div>
       </div>

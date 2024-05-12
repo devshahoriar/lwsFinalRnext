@@ -1,7 +1,6 @@
 import Link from 'next/link'
-import React from 'react'
 
-const BrodCam = () => {
+const BrodCam = ({title}:{title?: String}) => {
   return (
     <div className="container py-4 flex items-center gap-3">
       <Link href="/" className="text-primary text-base">
@@ -10,7 +9,7 @@ const BrodCam = () => {
       <span className="text-sm text-gray-400">
         <i className="fa-solid fa-chevron-right" />
       </span>
-      <p className="text-gray-600 font-medium">Account</p>
+      <p className="text-gray-600 font-medium">{title}</p>
     </div>
   )
 }

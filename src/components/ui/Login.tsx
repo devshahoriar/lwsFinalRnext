@@ -1,13 +1,21 @@
+'use client'
 /* eslint-disable react/no-unescaped-entities */
+import Link from 'next/link'
 import React from 'react'
+import SubmitButton from './SubmitButton'
+import { signIn } from 'next-auth/react'
+import { useFormState } from 'react-dom'
+import { loginAct } from '@/src/actions/authAction'
 
 const Login = () => {
+  const [state, action] = useFormState(loginAct, null)
+
   return (
     <div className="contain py-16">
       <div className="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden">
         <h2 className="text-2xl uppercase font-medium mb-1">Login</h2>
         <p className="text-gray-600 mb-6 text-sm">welcome back customer</p>
-        <form action="#" method="post" autoComplete="off">
+        <form action={action} autoComplete="off">
           <div className="space-y-2">
             <div>
               <label htmlFor="email" className="text-gray-600 mb-2 block">
@@ -54,12 +62,8 @@ const Login = () => {
             </a>
           </div>
           <div className="mt-4">
-            <button
-              type="submit"
-              className="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
-            >
-              Login
-            </button>
+            <SubmitButton title="Login" />
+            {state?.error && <p className="text-red-600 my-4">{state.error}</p>}
           </div>
         </form>
         {/* login with */}
@@ -71,24 +75,24 @@ const Login = () => {
         </div>
         <div className="mt-4 flex gap-4">
           <a
-            href="#"
+            onClick={() => signIn('facebook', { callbackUrl: '/' })}
             className="w-1/2 py-2 text-center text-white bg-blue-800 rounded uppercase font-roboto font-medium text-sm hover:bg-blue-700"
           >
             facebook
           </a>
           <a
-            href="#"
-            className="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500"
+            onClick={() => signIn('google', { callbackUrl: '/' })}
+            className="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500 cursor-pointer"
           >
             google
           </a>
         </div>
         {/* ./login with */}
         <p className="mt-4 text-center text-gray-600">
-          Don't have account?{' '}
-          <a href="register.html" className="text-primary">
+          Don't have account?
+          <Link href="/register" className="text-primary">
             Register now
-          </a>
+          </Link>
         </p>
       </div>
     </div>
