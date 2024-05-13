@@ -10,10 +10,13 @@ const page = async ({ params: { id } }: any) => {
   const product = await product_model.findById(id)
   product.visited = 1 + product.visited || 0
   await product.save()
-  
+
   const relatedProduct = await product_model
-    .find({ category: product.category })
-    .limit(4).select('title price rating stock thumbnail')
+    .find({
+      '$and': [{ category: product.category }, {_id : { '$ne': product._id } }],
+    })
+    .limit(4)
+    .select('title price rating stock thumbnail')
     .lean()
 
   return (

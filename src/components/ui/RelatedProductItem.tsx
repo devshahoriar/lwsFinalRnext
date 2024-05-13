@@ -26,7 +26,7 @@ const RelatedProductItem = ({ product }: { product: any }) => {
           </Link>
           <a
             href="#"
-            className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+            className="text-white text-lg w-9 h-8 rounded-full pointer-events-none bg-primary flex items-center justify-center hover:bg-gray-800 transition"
             title="add to wishlist"
           >
             <i className="fa-solid fa-heart" />

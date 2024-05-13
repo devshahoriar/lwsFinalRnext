@@ -1863,7 +1863,8 @@ export const GET = async () => {
       category: p[i].category,
       thumbnail: p[i].thumbnail,
       images: p[i].images,
-      longDescription: faker.lorem.paragraphs(5)
+      longDescription: faker.lorem.paragraphs(5),
+      size: faker.helpers.arrayElement(['xs', 's', 'm', 'l', 'xl']),
     })
     await product.save()
     console.log(`Product ${i + 1} seeded`);

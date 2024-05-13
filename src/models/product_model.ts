@@ -12,7 +12,11 @@ const Product = new mongoose.Schema(
     thumbnail: String,
     images: [String],
     longDescription: String,
-    visited: Number
+    visited: {
+      type: Number,
+      default: 0,
+    },
+    size: String,
   },
   {
     timestamps: true,
