@@ -1,12 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 import logo from '@/public/images/logo.svg'
+import { auth } from '@/src/lib/auth'
 import Image from 'next/image'
 import Link from 'next/link'
 import LangChange from '../ui/LangChange'
-import { auth } from '@/src/lib/auth'
+
+import { unstable_cache } from "next/cache";
+import cart_model from '@/src/models/cart_model'
 
 const Header = async () => {
   const { user } = ((await auth()) as any) || {}
+  let carts;
+  if (user?.id) {
+    carts = unstable_cache(await cart_model.findOne({}))
+    
+  }
 
   return (
     <header className="py-4 shadow-sm bg-white">
@@ -32,7 +40,7 @@ const Header = async () => {
         <div className="flex items-center space-x-4">
           <LangChange />
           <Link
-            href="/wishlist"
+            href={user ? '/wishlist' : '/login'}
             className="text-center text-gray-700 hover:text-primary transition relative"
           >
             <div className="text-2xl">
@@ -40,11 +48,11 @@ const Header = async () => {
             </div>
             <div className="text-xs leading-3">Wishlist</div>
             <div className="absolute -right-1 -top-1 size-4 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-              8
+              0
             </div>
           </Link>
           <Link
-            href="/checkout"
+            href={user ? '/checkout' : '/login'}
             className="text-center text-gray-700 hover:text-primary transition relative"
           >
             <div className="text-2xl">
@@ -52,7 +60,7 @@ const Header = async () => {
             </div>
             <div className="text-xs leading-3">Cart</div>
             <div className="absolute -right-2 -top-1 size-4 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-              2
+              0
             </div>
           </Link>
           <Link

@@ -5,7 +5,7 @@ import React from 'react'
 const page = () => {
   return (
     <>
-      <BrodCam />
+      <BrodCam title="Wishlist" />
       <div className="container gap-6 pt-4 pb-16">
         {/* wishlist */}
         <div className="mx-auto space-y-4 max-w-6xl">

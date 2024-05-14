@@ -1847,28 +1847,28 @@ const p = [
 ]
 
 export const GET = async () => {
-  await dbConnect()
-  await product_model.deleteMany({})
-  console.log('Deleted all products');
+  // await dbConnect()
+  // await product_model.deleteMany({})
+  // console.log('Deleted all products');
 
-  console.log('Start seed')
-  for (let i = 0; i < p.length; i++) {
-    const product = new product_model({
-      title: p[i].title,
-      description: p[i].description,
-      price: p[i].price,
-      rating: p[i].rating,
-      stock: p[i].stock,
-      brand: p[i].brand,
-      category: p[i].category,
-      thumbnail: p[i].thumbnail,
-      images: p[i].images,
-      longDescription: faker.lorem.paragraphs(5),
-      size: faker.helpers.arrayElement(['xs', 's', 'm', 'l', 'xl']),
-    })
-    await product.save()
-    console.log(`Product ${i + 1} seeded`);
+  // console.log('Start seed')
+  // for (let i = 0; i < p.length; i++) {
+  //   const product = new product_model({
+  //     title: p[i].title,
+  //     description: p[i].description,
+  //     price: p[i].price,
+  //     rating: p[i].rating,
+  //     stock: p[i].stock,
+  //     brand: p[i].brand,
+  //     category: p[i].category,
+  //     thumbnail: p[i].thumbnail,
+  //     images: p[i].images,
+  //     longDescription: faker.lorem.paragraphs(5),
+  //     size: faker.helpers.arrayElement(['xs', 's', 'm', 'l', 'xl']),
+  //   })
+  //   await product.save()
+  //   console.log(`Product ${i + 1} seeded`);
     
-  }
+  // }
   return NextResponse.json({ message: 'Hello World' })
 }

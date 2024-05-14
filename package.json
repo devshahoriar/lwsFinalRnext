@@ -21,7 +21,8 @@
     "next-auth": "5.0.0-beta.17",
     "next-international": "^1.2.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "use-debounce": "^10.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",

@@ -1,4 +1,5 @@
 import BrodCam from '@/src/components/shared/BrodCam'
+import AddToCartButton from '@/src/components/ui/AddToCartButton'
 import ProductImageS from '@/src/components/ui/ProductImageS'
 import Reating from '@/src/components/ui/Reating'
 import RelatedProductItem from '@/src/components/ui/RelatedProductItem'
@@ -13,7 +14,7 @@ const page = async ({ params: { id } }: any) => {
 
   const relatedProduct = await product_model
     .find({
-      '$and': [{ category: product.category }, {_id : { '$ne': product._id } }],
+      $and: [{ category: product.category }, { _id: { $ne: product._id } }],
     })
     .limit(4)
     .select('title price rating stock thumbnail')
@@ -76,12 +77,12 @@ const page = async ({ params: { id } }: any) => {
               </div>
             </div>
             <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
-              <a
-                href="#"
-                className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
-              >
-                <i className="fa-solid fa-bag-shopping" /> Add to cart
-              </a>
+              <AddToCartButton
+                icon={<i className="fa-solid fa-bag-shopping" />}
+                pId={'ff'}
+                uId={'uu'}
+                className="!rounded-md  flex gap-3 items-center w-fit px-3"
+              />
               <a
                 href="#"
                 className="border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-primary transition"

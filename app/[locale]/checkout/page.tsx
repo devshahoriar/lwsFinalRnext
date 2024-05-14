@@ -1,10 +1,10 @@
 import BrodCam from '@/src/components/shared/BrodCam'
-import React from 'react'
+import CartOtem from '@/src/components/ui/CartOtem'
 
 const page = () => {
   return (
     <>
-      <BrodCam />
+      <BrodCam title="Cart" />
       <div className="container grid grid-cols-12 items-start pb-16 pt-4 gap-6">
         <div className="col-span-8 border border-gray-200 p-4 rounded">
           <h3 className="text-lg font-medium capitalize mb-4">Checkout</h3>
@@ -112,46 +112,10 @@ const page = () => {
             order summary
           </h4>
           <div className="space-y-2">
-            <div className="flex justify-between">
-              <div>
-                <h5 className="text-gray-800 font-medium">
-                  Italian shape sofa
-                </h5>
-                <p className="text-sm text-gray-600">Size: M</p>
-              </div>
-              <p className="text-gray-600">x3</p>
-              <p className="text-gray-800 font-medium">$320</p>
-            </div>
-            <div className="flex justify-between">
-              <div>
-                <h5 className="text-gray-800 font-medium">
-                  Italian shape sofa
-                </h5>
-                <p className="text-sm text-gray-600">Size: M</p>
-              </div>
-              <p className="text-gray-600">x3</p>
-              <p className="text-gray-800 font-medium">$320</p>
-            </div>
-            <div className="flex justify-between">
-              <div>
-                <h5 className="text-gray-800 font-medium">
-                  Italian shape sofa
-                </h5>
-                <p className="text-sm text-gray-600">Size: M</p>
-              </div>
-              <p className="text-gray-600">x3</p>
-              <p className="text-gray-800 font-medium">$320</p>
-            </div>
-            <div className="flex justify-between">
-              <div>
-                <h5 className="text-gray-800 font-medium">
-                  Italian shape sofa
-                </h5>
-                <p className="text-sm text-gray-600">Size: M</p>
-              </div>
-              <p className="text-gray-600">x3</p>
-              <p className="text-gray-800 font-medium">$320</p>
-            </div>
+            <CartOtem />
+            <CartOtem />
+            <CartOtem />
+            <CartOtem />
           </div>
           <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
             <p>subtotal</p>

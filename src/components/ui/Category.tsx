@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -8,16 +9,21 @@ const Category = ({ catgorys }: { catgorys: [String] }) => {
   const pathname = usePathname()
   const { replace } = useRouter()
   const [catLo, setCat] = useState<string[]>([])
-
+  const params = new URLSearchParams(searchParams)
+  const curentCat = params.get('category')
+  
   useEffect(() => {
-    const params = new URLSearchParams(searchParams)
-    const cat = params.get('category')?.split(',')
-    setCat(cat as any)
-  }, [searchParams,pathname])
+    let cat = curentCat?.split(',')
+    cat = cat?.filter((cat) => cat)
+    if (cat?.length === 0) {
+      params.delete('category')
+      replace(`${pathname}?${params.toString()}`)
+    }
+    setCat(cat ? cat : [])
+  }, [curentCat])
 
   const hendeleChange = (e: any) => {
-    const params = new URLSearchParams(searchParams)
-    let prev = params.get('category')?.split(',')
+    let prev = curentCat?.split(',')
     prev = prev?.filter((cat) => cat)
     const newCat = e.target.value
 

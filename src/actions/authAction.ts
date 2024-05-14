@@ -2,7 +2,7 @@
 import bcrypt from 'bcrypt'
 import dbConnect from '../db/dbConnect'
 import User from '../models/user_model'
-import { RedirectType, redirect } from 'next/navigation'
+import {  redirect } from 'next/navigation'
 import { signIn } from '../lib/auth'
 
 export const registerAct = async (pvaction: any, data: FormData) => {

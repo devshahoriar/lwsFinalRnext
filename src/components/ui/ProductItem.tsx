@@ -1,8 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Reating from './Reating'
+import AddToCartButton from './AddToCartButton'
+import { auth } from '@/src/lib/auth'
 
-const ProductItem = ({ p }: { p: any }) => {
+const ProductItem = async ({ p }: { p: any }) => {
+  const { user } = ((await auth()) as any) || {}
+
   return (
     <div className="bg-white shadow rounded overflow-hidden group">
       <div className="relative">
@@ -48,12 +52,7 @@ const ProductItem = ({ p }: { p: any }) => {
           <div className="text-xs text-gray-500 ml-3">({p.stock})</div>
         </div>
       </div>
-      <a
-        href="#"
-        className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
-      >
-        Add to cart
-      </a>
+      <AddToCartButton uId={user?.id} pId={String(p._id)} />
     </div>
   )
 }

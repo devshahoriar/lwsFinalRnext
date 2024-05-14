@@ -1,44 +1,43 @@
 'use client'
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDebounce } from 'use-debounce'
 
 const PriceFilte = () => {
-  const [max, setMax] = useState<number>()
-  const [min, setMin] = useState<number>()
-  const timeOut = useRef<any>()
-
   const searchParams = useSearchParams()
   const pathname = usePathname()
+  const params = new URLSearchParams(searchParams)
   const { replace } = useRouter()
 
+  const prevMax = Number(params.get('max'))
+  const prevMin = Number(params.get('min'))
+
+  const [max, setMax] = useState<string>()
+  const [min, setMin] = useState<string>()
+  const [dMax] = useDebounce(max, 500) as any
+  const [dMin] = useDebounce(min, 500) as any
+
   useEffect(() => {
-    const params = new URLSearchParams(searchParams)
-    if(params.get('max')){
-      setMin(Number(params.get('max')))
-    }
-    if(params.get('min')){
-      setMin(Number(params.get('min')))
-    }
-    
-    
-  }, [searchParams])
+    prevMax === 0 && setMax('')
+    prevMin === 0 && setMin('')
+  }, [prevMax, prevMin])
+
+  useEffect(() => {
+    dMin && params.set('min', dMin)
+    dMax && params.set('max', dMax)
+    replace(`${pathname}?${params.toString()}`)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dMax, dMin])
 
   const hendelChage = (e: any) => {
-    timeOut.current && clearTimeout(timeOut.current)
-    const params = new URLSearchParams(searchParams)
     const name = e.target.name
-    const value = e.target.value
+    const value = Number(e.target.value) as any
     if (name === 'min') {
       setMin(value)
-      params.set('min', value)
     } else {
       setMax(value)
-      params.set('max', value)
     }
-    timeOut.current = setTimeout(() => {
-      replace(`${pathname}?${params.toString()}`)
-    }, 300)
   }
 
   return (

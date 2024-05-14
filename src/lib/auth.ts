@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth'
+import NextAuth, { DefaultSession } from 'next-auth'
 import Google from 'next-auth/providers/google'
 import Facebook from 'next-auth/providers/facebook'
 import { MongoDBAdapter } from '@auth/mongodb-adapter'
@@ -8,10 +8,32 @@ import user_model from '../models/user_model'
 import dbConnect from '../db/dbConnect'
 import bcrypt from 'bcrypt'
 
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      id: string
+    } & DefaultSession['user']
+  }
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   session: {
     strategy: 'jwt',
+  },
+  callbacks: {
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token.sub as string
+      }
+      return session
+    },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.uid = user.id
+      }
+      return token
+    },
   },
   providers: [
     Google,
