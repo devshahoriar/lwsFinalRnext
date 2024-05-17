@@ -7,6 +7,7 @@ import RelatedProductItem from '@/src/components/ui/RelatedProductItem'
 import dbConnect from '@/src/db/dbConnect'
 import { auth } from '@/src/lib/auth'
 import product_model from '@/src/models/product_model'
+import { PUBLIC_URL } from '@/src/utils/conts'
 
 const page = async ({ params: { id } }: any) => {
   const { user } = ((await auth()) as any) || {}
@@ -94,19 +95,22 @@ const page = async ({ params: { id } }: any) => {
             </div>
             <div className="flex gap-3 mt-4">
               <a
-                href="#"
+                href={`https://www.facebook.com/sharer.php?u=${PUBLIC_URL}/product/${product?._id}`}
+                target="_blank"
                 className="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
               >
                 <i className="fa-brands fa-facebook-f" />
               </a>
               <a
-                href="#"
+                href={`https://twitter.com/intent/tweet?url=${PUBLIC_URL}/product/${product?._id}`}
+                target="_blank"
                 className="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
               >
                 <i className="fa-brands fa-twitter" />
               </a>
               <a
-                href="#"
+                href={`https://www.instagram.com/sharer.php?u=${PUBLIC_URL}/product/${product?._id}`}
+                target="_blank"
                 className="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
               >
                 <i className="fa-brands fa-instagram" />
@@ -142,6 +146,21 @@ const page = async ({ params: { id } }: any) => {
       </>
     </>
   )
+}
+
+export async function generateMetadata({ params: { id } }: any) {
+  const product = (await product_model
+    .findById(id)
+    .select('title description price brand thumbnail')
+    .lean()) as any
+
+  return {
+    title: product.title,
+    description: product.description,
+    openGraph: {
+      images: [product?.thumbnail],
+    },
+  }
 }
 
 export default page

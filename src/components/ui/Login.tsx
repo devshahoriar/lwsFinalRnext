@@ -7,7 +7,7 @@ import { signIn } from 'next-auth/react'
 import { useFormState } from 'react-dom'
 import { loginAct } from '@/src/actions/authAction'
 
-const Login = () => {
+const Login = ({ red }: any) => {
   const [state, action] = useFormState(loginAct, null)
 
   return (
@@ -16,6 +16,7 @@ const Login = () => {
         <h2 className="text-2xl uppercase font-medium mb-1">Login</h2>
         <p className="text-gray-600 mb-6 text-sm">welcome back customer</p>
         <form action={action} autoComplete="off">
+          <input type="text" name='red' value={red ? red : '/'} hidden />
           <div className="space-y-2">
             <div>
               <label htmlFor="email" className="text-gray-600 mb-2 block">
@@ -75,13 +76,13 @@ const Login = () => {
         </div>
         <div className="mt-4 flex gap-4">
           <a
-            onClick={() => signIn('facebook', { callbackUrl: '/' })}
+            onClick={() => signIn('facebook', { callbackUrl: red ? red : '/' })}
             className="w-1/2 py-2 text-center text-white bg-blue-800 rounded uppercase font-roboto font-medium text-sm hover:bg-blue-700"
           >
             facebook
           </a>
           <a
-            onClick={() => signIn('google', { callbackUrl: '/' })}
+            onClick={() => signIn('google', { callbackUrl: red ? red : '/' })}
             className="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500 cursor-pointer"
           >
             google

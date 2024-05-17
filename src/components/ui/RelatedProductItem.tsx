@@ -50,7 +50,7 @@ const RelatedProductItem = async ({ product }: { product: any }) => {
           <div className="text-xs text-gray-500 ml-3">({product.stock})</div>
         </div>
       </div>
-      <AddToCartButton pId={String(product?._id)} uId={user?.id} />
+      <AddToCartButton pId={String(product?._id)} uId={user?.id} className="w-full" />
     </div>
   )
 }

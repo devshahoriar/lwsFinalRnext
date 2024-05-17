@@ -17,7 +17,7 @@ const AddToWishList = ({
   const [isPending, startTrensition] = useTransition()
   const hendelClick = () => {
     if (!uId) {
-      push('/login')
+      push('/login?redirect=/product/'+pId)
       return
     }
     startTrensition(async () => await addWishList(uId, pId))

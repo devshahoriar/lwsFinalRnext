@@ -54,7 +54,7 @@ const Header = async () => {
         <div className="flex items-center space-x-4">
           <LangChange />
           <Link
-            href={user ? '/wishlist' : '/login'}
+            href={user ? '/wishlist' : '/login?redirect=/wishlist'}
             className="text-center text-gray-700 hover:text-primary transition relative"
           >
             <div className="text-2xl">
@@ -66,7 +66,7 @@ const Header = async () => {
             </div>
           </Link>
           <Link
-            href={user ? '/checkout' : '/login'}
+            href={user ? '/checkout' : '/login?redirect=/checkout'}
             className="text-center text-gray-700 hover:text-primary transition relative"
           >
             <div className="text-2xl">

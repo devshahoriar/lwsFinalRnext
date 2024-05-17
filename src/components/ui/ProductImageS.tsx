@@ -22,7 +22,7 @@ const ProductImageS = ({ images }: { images: any }) => {
             alt="product"
             height={1000}
             width={1000}
-            className={`w-full cursor-pointer border aspect-square rounded-md ${activeImage === img ? 'border-primary' : 'border-gray-200'}`}
+            className={`w-full cursor-pointer border aspect-square object-cover rounded-md ${activeImage === img ? 'border-primary' : 'border-gray-200'}`}
           />
         ))}
       </div>

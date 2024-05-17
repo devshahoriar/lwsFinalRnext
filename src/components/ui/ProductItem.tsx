@@ -47,7 +47,7 @@ const ProductItem = async ({ p }: { p: any }) => {
           <div className="text-xs text-gray-500 ml-3">({p.stock})</div>
         </div>
       </div>
-      <AddToCartButton uId={user?.id} pId={String(p._id)} />
+      <AddToCartButton uId={user?.id} pId={String(p._id)} className="w-full" />
     </div>
   )
 }

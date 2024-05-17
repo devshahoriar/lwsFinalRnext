@@ -33,7 +33,7 @@ export const registerAct = async (pvaction: any, data: FormData) => {
 }
 
 export const loginAct = async (pvaction: any, data: FormData) => {
-  const { email, password, remember } = Object.fromEntries(data.entries())
+  const { email, password, remember,red } = Object.fromEntries(data.entries())
   if (email === '' || password === '') {
     return { error: 'Please fill email and password.' }
   }
@@ -43,5 +43,5 @@ export const loginAct = async (pvaction: any, data: FormData) => {
     console.log(error)
     return { error: 'Invalid credentials' }
   }
-  redirect('/')
+  redirect(red as string)
 }
