@@ -7,6 +7,7 @@ import NavBar from '@/src/components/shared/NavBar'
 import Footer from '@/src/components/shared/Footer'
 import Copyright from '@/src/components/shared/Copyright'
 import { I18nProviderClient } from '@/src/locales/client'
+import dbConnect from '@/src/db/dbConnect'
 
 const poppins = Poppins({
   weight: ['400', '500', '600', '700'],
@@ -38,13 +39,14 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params: { locale },
 }: Readonly<{
   children: React.ReactNode
   params: { locale: string }
 }>) {
+  await dbConnect()
   return (
     <html lang={locale}>
       <body className={`${poppins.variable} ${roboto.variable}`}>
