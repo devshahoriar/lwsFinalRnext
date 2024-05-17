@@ -1,12 +1,13 @@
-import NextAuth, { DefaultSession } from 'next-auth'
-import Google from 'next-auth/providers/google'
-import Facebook from 'next-auth/providers/facebook'
 import { MongoDBAdapter } from '@auth/mongodb-adapter'
-import clientPromise from './mongoPromise'
-import Credentials from 'next-auth/providers/credentials'
-import user_model from '../models/user_model'
-import dbConnect from '../db/dbConnect'
 import bcrypt from 'bcrypt'
+import * as jose from 'jose'
+import NextAuth, { DefaultSession } from 'next-auth'
+import Credentials from 'next-auth/providers/credentials'
+import Facebook from 'next-auth/providers/facebook'
+import Google from 'next-auth/providers/google'
+import dbConnect from '../db/dbConnect'
+import user_model from '../models/user_model'
+import clientPromise from './mongoPromise'
 
 declare module 'next-auth' {
   interface Session {
@@ -33,6 +34,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.uid = user.id
       }
       return token
+    },
+  },
+  jwt: {
+    async encode({ secret, token }) {
+      const alg = 'HS256'
+      const jwt = await new jose.SignJWT(token)
+        .setProtectedHeader({ alg })
+        .sign(new TextEncoder().encode(secret as any))
+
+      return jwt
+    },
+    async decode({ secret, token }) {
+      try {
+        const { payload } = await jose.jwtVerify(
+          token as any,
+          new TextEncoder().encode(secret as any)
+        )
+        return payload
+      } catch (error) {
+        return null
+      }
     },
   },
   providers: [

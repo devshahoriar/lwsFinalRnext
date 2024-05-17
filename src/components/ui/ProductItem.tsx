@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Reating from './Reating'
 import AddToCartButton from './AddToCartButton'
 import { auth } from '@/src/lib/auth'
+import { HoverAddToWishButton } from './AddToWishList'
 
 const ProductItem = async ({ p }: { p: any }) => {
   const { user } = ((await auth()) as any) || {}
@@ -28,13 +29,7 @@ const ProductItem = async ({ p }: { p: any }) => {
           >
             <i className="fa-solid fa-magnifying-glass" />
           </Link>
-          <a
-            href="#"
-            className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
-            title="add to wishlist"
-          >
-            <i className="fa-solid fa-heart" />
-          </a>
+          <HoverAddToWishButton uId={user?.id} pId={String(p._id)} />
         </div>
       </div>
       <div className="pt-4 pb-3 px-4">

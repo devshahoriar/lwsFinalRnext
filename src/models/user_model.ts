@@ -14,8 +14,8 @@ const User = new mongoose.Schema(
     image: String,
     password: {
       type: String,
-      required: [true, 'Please provide a password'],
     },
+    phone: String,
   },
   {
     timestamps: true,

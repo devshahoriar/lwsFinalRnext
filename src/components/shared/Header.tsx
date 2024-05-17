@@ -5,16 +5,30 @@ import Image from 'next/image'
 import Link from 'next/link'
 import LangChange from '../ui/LangChange'
 
-import { unstable_cache } from "next/cache";
+import { unstable_cache } from 'next/cache'
 import cart_model from '@/src/models/cart_model'
+import wishList_model from '@/src/models/wishList_model'
+
+const getCachedGuides = unstable_cache(
+  (id) => cart_model.findOne({ user: id }).populate('products.product', '_id'),
+  undefined,
+  { tags: ['usercart'] }
+)
+
+const getCachedWishList = unstable_cache(
+  (uId) => wishList_model.findOne({ user: uId }),
+  undefined,
+  { tags: ['userwishlist'] }
+)
 
 const Header = async () => {
   const { user } = ((await auth()) as any) || {}
-  let carts;
-  if (user?.id) {
-    carts = unstable_cache(await cart_model.findOne({}))
-    
+  let carts = user?.id && (await getCachedGuides(user.id))
+  let { products } = (user?.id && (await getCachedWishList(user.id))) || {
+    products: [],
   }
+
+  const cartCount = carts?.products?.length || 0
 
   return (
     <header className="py-4 shadow-sm bg-white">
@@ -48,7 +62,7 @@ const Header = async () => {
             </div>
             <div className="text-xs leading-3">Wishlist</div>
             <div className="absolute -right-1 -top-1 size-4 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-              0
+              {products?.length || 0}
             </div>
           </Link>
           <Link
@@ -60,7 +74,7 @@ const Header = async () => {
             </div>
             <div className="text-xs leading-3">Cart</div>
             <div className="absolute -right-2 -top-1 size-4 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-              0
+              {cartCount}
             </div>
           </Link>
           <Link

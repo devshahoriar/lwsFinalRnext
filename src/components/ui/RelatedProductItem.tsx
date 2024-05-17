@@ -1,8 +1,12 @@
 import Image from 'next/image'
 import Reating from './Reating'
 import Link from 'next/link'
+import { auth } from '@/src/lib/auth'
+import AddToCartButton from './AddToCartButton'
+import { HoverAddToWishButton } from './AddToWishList'
 
-const RelatedProductItem = ({ product }: { product: any }) => {
+const RelatedProductItem = async ({ product }: { product: any }) => {
+  const { user } = ((await auth()) as any) || {}
   return (
     <div className="bg-white shadow rounded overflow-hidden group">
       <div className="relative">
@@ -24,13 +28,7 @@ const RelatedProductItem = ({ product }: { product: any }) => {
           >
             <i className="fa-solid fa-magnifying-glass" />
           </Link>
-          <a
-            href="#"
-            className="text-white text-lg w-9 h-8 rounded-full pointer-events-none bg-primary flex items-center justify-center hover:bg-gray-800 transition"
-            title="add to wishlist"
-          >
-            <i className="fa-solid fa-heart" />
-          </a>
+          <HoverAddToWishButton uId={user?.id} pId={String(product?._id)} />
         </div>
       </div>
       <div className="pt-4 pb-3 px-4">
@@ -52,12 +50,7 @@ const RelatedProductItem = ({ product }: { product: any }) => {
           <div className="text-xs text-gray-500 ml-3">({product.stock})</div>
         </div>
       </div>
-      <a
-        href="#"
-        className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
-      >
-        Add to cart
-      </a>
+      <AddToCartButton pId={String(product?._id)} uId={user?.id} />
     </div>
   )
 }

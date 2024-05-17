@@ -1,12 +1,15 @@
 import BrodCam from '@/src/components/shared/BrodCam'
 import AddToCartButton from '@/src/components/ui/AddToCartButton'
+import AddToWishList from '@/src/components/ui/AddToWishList'
 import ProductImageS from '@/src/components/ui/ProductImageS'
 import Reating from '@/src/components/ui/Reating'
 import RelatedProductItem from '@/src/components/ui/RelatedProductItem'
 import dbConnect from '@/src/db/dbConnect'
+import { auth } from '@/src/lib/auth'
 import product_model from '@/src/models/product_model'
 
 const page = async ({ params: { id } }: any) => {
+  const { user } = ((await auth()) as any) || {}
   await dbConnect()
   const product = await product_model.findById(id)
   product.visited = 1 + product.visited || 0
@@ -79,16 +82,15 @@ const page = async ({ params: { id } }: any) => {
             <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
               <AddToCartButton
                 icon={<i className="fa-solid fa-bag-shopping" />}
-                pId={'ff'}
-                uId={'uu'}
+                pId={String(product._id)}
+                uId={user?.id}
                 className="!rounded-md  flex gap-3 items-center w-fit px-3"
               />
-              <a
-                href="#"
-                className="border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-primary transition"
-              >
-                <i className="fa-solid fa-heart" /> Wishlist
-              </a>
+              <AddToWishList
+                pId={String(product._id)}
+                uId={user?.id}
+                className="!rounded-md  flex gap-3 items-center w-fit px-3"
+              />
             </div>
             <div className="flex gap-3 mt-4">
               <a

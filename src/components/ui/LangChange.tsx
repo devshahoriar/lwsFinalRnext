@@ -3,6 +3,8 @@
 import { useChangeLocale, useCurrentLocale } from '@/src/locales/client'
 
 const LangChange = () => {
+
+  
   const changeLocale = useChangeLocale()
   const locale = useCurrentLocale()
 
