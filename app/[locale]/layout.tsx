@@ -8,6 +8,7 @@ import Footer from '@/src/components/shared/Footer'
 import Copyright from '@/src/components/shared/Copyright'
 import { I18nProviderClient } from '@/src/locales/client'
 import dbConnect from '@/src/db/dbConnect'
+import { PUBLIC_URL } from '@/src/utils/conts'
 
 const poppins = Poppins({
   weight: ['400', '500', '600', '700'],
@@ -26,11 +27,11 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://lws-shop.vercel.app',
+    url: PUBLIC_URL,
     siteName: 'LWS Shop',
     images: [
       {
-        url: 'https://lws-shop.vercel.app/og-image.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'LWS Shop',
