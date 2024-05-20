@@ -148,6 +148,14 @@ const page = async ({ params: { id } }: any) => {
   )
 }
 
+export const generateStaticParams = async () => {
+  await dbConnect()
+  const products = await product_model.find().select('_id').lean()
+  return products.map((product) => ({
+    params: { id: String(product._id) },
+  }))
+}
+
 export async function generateMetadata({ params: { id } }: any) {
   const product = (await product_model
     .findById(id)

@@ -16,7 +16,7 @@ const Login = ({ red }: any) => {
         <h2 className="text-2xl uppercase font-medium mb-1">Login</h2>
         <p className="text-gray-600 mb-6 text-sm">welcome back customer</p>
         <form action={action} autoComplete="off">
-          <input type="text" name='red' value={red ? red : '/'} hidden />
+          <input type="text" name='red' defaultValue={red ? red : '/'} hidden />
           <div className="space-y-2">
             <div>
               <label htmlFor="email" className="text-gray-600 mb-2 block">

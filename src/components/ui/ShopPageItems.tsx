@@ -9,6 +9,8 @@ const ShopPageItems = async ({ category, max, min, size }: any) => {
   const maxNum = Number(max || 1000000)
 
   await dbConnect()
+  const totalProduct = await product_model.countDocuments()
+
   const product = await product_model
     .find({
       $and: [
@@ -23,6 +25,7 @@ const ShopPageItems = async ({ category, max, min, size }: any) => {
       {product.map((item: any) => (
         <RelatedProductItem key={item._id} product={item} />
       ))}
+      
     </div>
   )
 }

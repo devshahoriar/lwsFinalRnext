@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: 'LWS Shop',
     images: [
       {
-        url: '/og-image.png',
+        url: PUBLIC_URL + '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'LWS Shop',

@@ -10,13 +10,14 @@ import cart_model from '@/src/models/cart_model'
 import wishList_model from '@/src/models/wishList_model'
 
 const getCachedGuides = unstable_cache(
-  (id) => cart_model.findOne({ user: id }).populate('products.product', '_id'),
+  (id) =>
+    cart_model.findOne({ user: id }).populate('products.product', '_id').lean(),
   undefined,
   { tags: ['usercart'] }
 )
 
 const getCachedWishList = unstable_cache(
-  (uId) => wishList_model.findOne({ user: uId }),
+  (uId) => wishList_model.findOne({ user: uId }).lean(),
   undefined,
   { tags: ['userwishlist'] }
 )
