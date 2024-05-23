@@ -15,6 +15,7 @@ export const addToCart = async (uId: String, pId: String) => {
       products: [{ product: pId }],
     })
     await newCart.save()
+    revalidateTag('usercart')
   } else {
     const product = prevCart.products.find((p: any) => p.product._id == pId)
     if (product) {
@@ -23,6 +24,7 @@ export const addToCart = async (uId: String, pId: String) => {
       prevCart.products.push({ product: pId })
     }
     await prevCart.save()
+
     revalidateTag('usercart')
   }
 }

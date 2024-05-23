@@ -25,6 +25,7 @@ const getCachedWishList = unstable_cache(
 const Header = async () => {
   const { user } = ((await auth()) as any) || {}
   let carts = user?.id && (await getCachedGuides(user.id))
+
   let { products } = (user?.id && (await getCachedWishList(user.id))) || {
     products: [],
   }

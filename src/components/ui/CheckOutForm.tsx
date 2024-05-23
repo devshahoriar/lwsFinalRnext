@@ -6,12 +6,9 @@ import { useFormState } from 'react-dom'
 
 const CheckOutForm = ({ id, data }: any) => {
   const [state, action] = useFormState(checkOut, null)
-  const router = useRouter()
 
   const { fName, lName, email, phone, Street, city } = data || {}
-  if (state?.success) {
-    router.push('/order/' + state.id)
-  }
+  console.log(state)
 
   return (
     <form id="checkOutFrom" action={action}>

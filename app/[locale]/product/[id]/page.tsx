@@ -8,11 +8,15 @@ import dbConnect from '@/src/db/dbConnect'
 import { auth } from '@/src/lib/auth'
 import product_model from '@/src/models/product_model'
 import { PUBLIC_URL } from '@/src/utils/conts'
+import { redirect } from 'next/navigation'
 
 const page = async ({ params: { id } }: any) => {
   const { user } = ((await auth()) as any) || {}
   await dbConnect()
   const product = await product_model.findById(id)
+  if (product === null) {
+    redirect('/404')
+  }
   product.visited = 1 + product.visited || 0
   await product.save()
 
@@ -161,6 +165,10 @@ export async function generateMetadata({ params: { id } }: any) {
     .findById(id)
     .select('title description price brand thumbnail')
     .lean()) as any
+
+  if (product === null) {
+    return
+  }
 
   return {
     title: product.title,

@@ -11,7 +11,19 @@ const Order = new mongoose.Schema(
       type: String,
       default: 'pending',
     },
-    products: Object,
+    products: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Product',
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
     orderAddress: {
       fName: String,
       lName: String,
