@@ -34,7 +34,10 @@ export default async function middleware(request: NextRequest) {
   const isPublic = loginRouts.find((r) => currentPath.includes(r))
 
   const coockiss = cookies()
-  const auth = coockiss.get('authjs.session-token') as any
+  const auth =
+    coockiss.get('__Secure-authjs.session-token') ||
+    (coockiss.get('authjs.session-token') as any)
+
 
   if (isPublic && auth) {
     return NextResponse.redirect(new URL('/account', request.url))
