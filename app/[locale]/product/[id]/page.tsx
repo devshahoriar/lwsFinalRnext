@@ -10,7 +10,7 @@ import product_model from '@/src/models/product_model'
 import { PUBLIC_URL } from '@/src/utils/conts'
 import { redirect } from 'next/navigation'
 
-export const dynamic = 'force-static'
+export const dynamic = 'force-dynamic'
 
 const page = async ({ params: { id } }: any) => {
   const { user } = ((await auth()) as any) || {}
