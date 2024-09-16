@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -6,8 +7,8 @@ const ProductImageS = ({ images }: { images: any }) => {
   const [activeImage, setActiveImage] = useState(images[0])
   return (
     <div>
-      <Image
-        src={activeImage}
+      <img
+        src={'https://random-image-pepebigotes.vercel.app/api/random-image'}
         height={1000}
         width={1000}
         alt="product"
@@ -15,10 +16,10 @@ const ProductImageS = ({ images }: { images: any }) => {
       />
       <div className="grid grid-cols-5 gap-4 mt-4">
         {images.map((img: any, i: number) => (
-          <Image
-            onClick={() => setActiveImage(img)}
+          <img
+            onClick={() => setActiveImage('https://random-image-pepebigotes.vercel.app/api/random-image')}
             key={i}
-            src={img}
+            src={'https://random-image-pepebigotes.vercel.app/api/random-image'}
             alt="product"
             height={1000}
             width={1000}

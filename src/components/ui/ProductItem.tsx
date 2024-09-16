@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from 'next/image'
 import Link from 'next/link'
 import Reating from './Reating'
@@ -11,8 +12,8 @@ const ProductItem = async ({ p }: { p: any }) => {
   return (
     <div className="bg-white shadow rounded overflow-hidden group">
       <div className="relative">
-        <Image
-          src={p?.thumbnail}
+        <img
+          src={'https://random-image-pepebigotes.vercel.app/api/random-image'}
           alt="product 1"
           className="w-full aspect-square object-cover"
           width={1000}

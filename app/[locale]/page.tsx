@@ -14,6 +14,8 @@ export default async function Home() {
     .sort({ createdAt: -1 })
     .select('title price rating stock thumbnail')
     .lean()
+    console.log(topProduct);
+    
   const trendProduct = await product_model
     .find()
     .limit(4)

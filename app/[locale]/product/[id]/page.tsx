@@ -157,7 +157,7 @@ const page = async ({ params: { id } }: any) => {
 export const generateStaticParams = async () => {
   await dbConnect()
   const products = await product_model.find().select('_id').lean()
-  return products.map((product) => ({
+  return products.map((product :any) => ({
     params: { id: String(product._id) },
   }))
 }
